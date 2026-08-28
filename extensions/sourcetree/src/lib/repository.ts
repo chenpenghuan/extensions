@@ -37,7 +37,8 @@ export class RepositoryList {
       throw new PlistMissingError();
     }
 
-    return bplist.parseFile(plist).then((result: [PlistRepository]) => {
+    const fileBuffer = Buffer.from(fs.readFileSync(plist));
+    return Promise.resolve(bplist.parseBuffer(fileBuffer) as [PlistRepository]).then((result: [PlistRepository]) => {
       const root = result[0].$objects;
 
       const meta = root
